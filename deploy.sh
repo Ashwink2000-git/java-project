@@ -1,16 +1,19 @@
 #!/bin/bash
 
 # Variables
-APP_NAME=hello-world-app
-BUILD_NUMBER=$1  # Get build number from parameter
-UAT_DIR=/var/www/html/$APP_NAME
+APP_NAME=my-java-app
+BUILD_DIR=target  # Change this to the output directory of your build process
+UAT_DIR=/var/www/html/$APP_NAME/uat
+PROD_DIR=/var/www/html/$APP_NAME/prod
 
-# Create deployment directory
+# Create deployment directories if they don't exist
 mkdir -p $UAT_DIR
+mkdir -p $PROD_DIR
 
-# Copy built JAR to UAT directory
-cp target/$APP_NAME-$BUILD_NUMBER-SNAPSHOT.jar $UAT_DIR/$APP_NAME.jar
+# Copy built JAR file to the UAT directory
+cp $BUILD_DIR/$APP_NAME-*.jar $UAT_DIR/$APP_NAME.jar
 
-# Restart Nginx (if necessary)
-# systemctl restart nginx
+# Restart Nginx to serve the updated application (if necessary)
+systemctl restart nginx
+
 
