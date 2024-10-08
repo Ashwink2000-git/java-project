@@ -11,5 +11,5 @@ mkdir -p $UAT_DEPLOY_DIR
 # Copy built JAR file to the UAT directory
 cp $BUILD_DIR/$APP_NAME-*.jar $UAT_DEPLOY_DIR/$APP_NAME.jar
 
-# Restart Nginx to serve the updated application (if necessary)
-systemctl restart nginx
+# Restart Nginx to serve the updated application
+sudo systemctl restart nginx
