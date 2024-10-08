@@ -1,15 +1,20 @@
-#!/bin/bash
+APP_NAME=my-java-app
+UAT_WORKSPACE=/var/lib/jenkins/workspace/my-java-app-uat
+PRODUCTION_WORKSPACE=/var/lib/jenkins/workspace/my-java-app-production
+JAR_FILE=$UAT_WORKSPACE/target/$APP_NAME-1.0-SNAPSHOT.jar
 
-# Variables
-APP_NAME=my-java-app  # Change this to match the artifact name in pom.xml
-BUILD_DIR=target      # Maven's default output directory
-UAT_DEPLOY_DIR=/var/lib/jenkins/workspace/my-java-app-uat
+echo "Checking if UAT workspace exists: $UAT_WORKSPACE"
+if [ ! -d "$UAT_WORKSPACE" ]; then
+    echo "Error: UAT workspace not found!"
+    exit 1
+fi
 
-# Create deployment directory if it doesn't exist
-mkdir -p $UAT_DEPLOY_DIR
-
-# Copy built JAR file to the UAT directory
-cp $BUILD_DIR/$APP_NAME-*.jar $UAT_DEPLOY_DIR/$APP_NAME.jar
-
-# Restart Nginx to serve the updated application
-sudo systemctl restart nginx
+echo "Checking if JAR file exists: $JAR_FILE"
+if [ -f "$JAR_FILE" ]; then
+    echo "Copying $JAR_FILE to production workspace."
+    cp "$JAR_FILE" "$PRODUCTION_WORKSPACE/my-java-app.jar"
+else
+    echo "Error: JAR file not found in UAT workspace!"
+    ls -al $UAT_WORKSPACE/target
+    exit 1
+fi
