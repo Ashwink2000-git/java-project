@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-APP_NAME=my-java-app
-BUILD_DIR=target  # Change this to the output directory of your build process
+APP_NAME=my-java-app # Change this to your application's name (as defined in your pom.xml)
+BUILD_DIR=target     # Maven's default output directory
 UAT_DIR=/var/www/html/$APP_NAME/uat
 PROD_DIR=/var/www/html/$APP_NAME/prod
 
